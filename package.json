@@ -1,6 +1,6 @@
 {
-  "name": "qry-codes-vue",
-  "version": "1.0.0",
+  "name": "@andorsearch/qry-codes-vue",
+  "version": "1.0.0-alpha.1",
   "description": "Vue components for rendering individual QRy codes as a bitmap or collections as clusters",
   "main": "dist/qry-codes-vue.cjs.js",
   "module": "dist/qry-codes-vue.es.js",

@@ -24,6 +24,8 @@ yarn-error.log*
 .idea/
 .vscode/
 
+Archive.zip
+
 # TypeScript build output (optional since you already output to dist/)
 *.tsbuildinfo
 
