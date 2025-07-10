@@ -1,0 +1,52 @@
+{
+  "name": "qry-codes-vue",
+  "version": "1.0.0",
+  "description": "Vue components for rendering individual QRy codes as a bitmap or collections as clusters",
+  "main": "dist/qry-codes-vue.cjs.js",
+  "module": "dist/qry-codes-vue.es.js",
+  "types": "dist/index.d.ts",
+  "type": "module",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "exports": {
+    ".": {
+      "import": "./dist/qry-codes-vue.es.js",
+      "require": "./dist/qry-codes-vue.cjs.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "vite build",
+    "prepare": "vite build",
+    "prepublishOnly": "vite build"
+  },
+  "dependencies": {
+    "@andorsearch/qry-codes": "^1.0.0-alpha.1",
+    "vue": "^3.0.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.0.0",
+    "vue-tsc": "^1.8.22"
+  },
+  "peerDependencies": {
+    "vue": "^3.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/markharwood/qry-codes-vue.git"
+  },
+  "keywords": [
+    "vue",
+    "component",
+    "qry-codes",
+    "vectors",
+    "clustering"
+  ],
+  "author": "Mark Harwood",
+  "license": "Apache-2.0"
+}
