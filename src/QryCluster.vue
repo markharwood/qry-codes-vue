@@ -134,7 +134,7 @@ function clusterResults() {
           <div v-for="vectorIndex, index in cluster.indices">
             <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index"
               :clusterSize="cluster.indices.length">
-              Result #{{ docId }}-{{ index }}
+              Result #{{ vectorIndex }}-{{ index }}
             </slot>
           </div>
         </div>
