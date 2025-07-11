@@ -1,5 +1,4 @@
 <script setup lang="ts">
-// import { ref, onMounted, onActivated } from "vue";
 import { ref, onMounted , watch} from "vue";
 import { BitPatternCanvas } from "@andorsearch/qry-codes"
 
@@ -41,11 +40,7 @@ const props = defineProps({
 watch(
   props,
   (_newProps:any, _oldProps:any) => {
-    // let changed = Object.keys(newProps).find(key=>{newProps[key] !== oldProps[key]})
-    // if (changed){
-      // console.log("bit props changed")
       redraw()
-    // }
   },
   { deep: false } 
 );
@@ -82,11 +77,6 @@ defineExpose({ redraw })
 onMounted(() => {
   drawBitPattern()
 })
-
-// onActivated(() => {
-//   redraw()
-// })
-
 </script>
 <template>
   <canvas ref="canvas"></canvas>

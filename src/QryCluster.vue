@@ -4,10 +4,10 @@ import BitVisualizer from './BitVisualizer.vue';
 import ClusterSlider from './ClusterSlider.vue';
 import { SimilarityGraph, buildSimilarityGraph, clusterByThreshold, mergeVectors } from "@andorsearch/qry-codes"
 
-export interface Cluster{
-    indices : number[]
-    mergedVector:Uint8Array,
-    score: number
+export interface Cluster {
+  indices: number[]
+  mergedVector: Uint8Array,
+  score: number
 }
 
 const props = defineProps({
@@ -32,64 +32,58 @@ const props = defineProps({
     default: "qry-codes-cluster"
   },
   slider: {
-    // type: String as () => "none" | "top" | "bottom",
+    // type: String as () => "none" | "top" | "bottom", 
     type: String,
     default: "top"
   },
   clusterScorer: {
     type: Function,
     required: false,
-    default: ( cluster:Cluster) => cluster.indices.length  // Default no-op sort function (keeps original order)
-  }  
+    default: (cluster: Cluster) => cluster.indices.length  // Default no-op sort function (keeps original order)
+  }
 })
-let minFoundSim =ref(0)
-let maxFoundSim =ref(1)
+let minFoundSim = ref(0)
+let maxFoundSim = ref(1)
 
 let sliderSim = ref(props.minClusterSim)
-
-// let bitmaps = ref([])
 
 let clusters = ref<any[]>([])
 let simGraph: SimilarityGraph | undefined = undefined
 clusterResults()
 
-watch(sliderSim, ()=>{
-  // console.log("Local sliderSim change:"+ sliderSim.value+" props=",props.minClusterSim)
-  if(sliderSim.value!=props.minClusterSim){
+watch(sliderSim, () => {
+  if (sliderSim.value != props.minClusterSim) {
     clusterResults()
   }
 })
 
 watch(
-    () => props.minClusterSim,
-    (newValue) => {
-      if(sliderSim.value!=newValue){
-        // console.log("External prop change. Old local sim="+sliderSim.value+" new prop= "+newValue)
-        sliderSim.value = newValue;   
-        clusterResults()
-
-      }   
+  () => props.minClusterSim,
+  (newValue) => {
+    if (sliderSim.value != newValue) {
+      sliderSim.value = newValue;
+      clusterResults()
     }
+  }
 );
 
 
 function clusterResults() {
-  // console.log("Clustering, SliderSim ="+ sliderSim.value+" props=",props.minDocsPerCluster)
-  let max=0
-  let min=1
+  let max = 0
+  let min = 1
   if (simGraph == undefined) {
     simGraph = buildSimilarityGraph(props.vectors)
     simGraph.edgeScores.forEach(cluster => {
-      cluster.forEach(score=>{
-        max=Math.max(score, max)
-        min=Math.min(score, min)
+      cluster.forEach(score => {
+        max = Math.max(score, max)
+        min = Math.min(score, min)
       })
     })
-    minFoundSim.value = min    
+    minFoundSim.value = min
     maxFoundSim.value = max
   }
   clusters.value = []
-  let unsortedClusters:Cluster[] = []
+  let unsortedClusters: Cluster[] = []
   let clusteredIDs: number[][] = clusterByThreshold(simGraph, sliderSim.value)
   clusteredIDs = clusteredIDs.filter(cluster => cluster.length >= props.minDocsPerCluster)
   clusteredIDs.forEach((cluster) => {
@@ -100,7 +94,7 @@ function clusterResults() {
     })
     let islandAverage = mergeVectors(clusterEmbeddings)
 
-    let newCluster:Cluster = {
+    let newCluster: Cluster = {
       indices: cluster,
       mergedVector: islandAverage,
       score: 0
@@ -110,9 +104,6 @@ function clusterResults() {
     unsortedClusters.push(newCluster)
   })
   clusters.value = unsortedClusters.sort((a, b) => b.score - a.score);
-
-  // Delay redrawing bitmaps until rendering complete
-  // nextTick(() => bitmaps.value.forEach((bitmap: any, index) => bitmap.redraw(clusters.value[index].mergedVector)))
 }
 
 </script>
@@ -120,15 +111,16 @@ function clusterResults() {
 <template>
   <div v-if="clusters">
     <div v-if="props.slider == 'top'" style="padding-bottom: 10px;">
-        <ClusterSlider v-model="sliderSim" :min="minFoundSim" :max="maxFoundSim"></ClusterSlider>
+      <ClusterSlider v-model="sliderSim" :min="minFoundSim" :max="maxFoundSim"></ClusterSlider>
     </div>
 
     <div :style="'display:flex;flex-direction: row;overflow-x: scroll;width: ' + props.vw + 'vw;gap:5px;height:300px;'">
       <div v-for="cluster, clusterIndex in clusters" :class="props.clusterClass">
 
-        <slot name="clusterHeader" :clusterVectorIds="cluster.indices" :clusterMergedVector="cluster.mergedVector" :clusterIndex="clusterIndex">
+        <slot name="clusterHeader" :clusterVectorIndices="cluster.indices" :clusterMergedVector="cluster.mergedVector"
+          :clusterIndex="clusterIndex">
           <div>
-            <BitVisualizer  :data="cluster.mergedVector" :cols="64" :cellSize="1" />
+            <BitVisualizer :data="cluster.mergedVector" :cols="64" :cellSize="1" />
             <div v-if="cluster.indices.length > 1" style="text-align: center;">
               {{ cluster.indices.length }} matches
             </div>
@@ -139,8 +131,9 @@ function clusterResults() {
         </slot>
 
         <div style="display: flex;flex-direction: column;gap:10px;max-height:230px;overflow-y: scroll;margin-top: 6px;">
-          <div v-for="docId, index in cluster.indices">
-            <slot name="clusterElement" :docId="docId" , :elementNumber="index" :clusterSize="cluster.indices.length">
+          <div v-for="vectorIndex, index in cluster.indices">
+            <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index"
+              :clusterSize="cluster.indices.length">
               Result #{{ docId }}-{{ index }}
             </slot>
           </div>
@@ -148,8 +141,8 @@ function clusterResults() {
       </div>
 
     </div>
-    <div v-if="props.slider == 'bottom'" >
-        <ClusterSlider v-model="sliderSim" :min="minFoundSim" :max="maxFoundSim"></ClusterSlider>
+    <div v-if="props.slider == 'bottom'">
+      <ClusterSlider v-model="sliderSim" :min="minFoundSim" :max="maxFoundSim"></ClusterSlider>
     </div>
 
   </div>
