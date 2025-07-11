@@ -54,7 +54,6 @@ function changeVal(event: Event) {
                 <span>broad ←</span>
             </slot>
             <input type="range" v-model="val" :min="props.min" :max="props.max" step="0.01" class="custom-slider"
-                size="small"
                 @input="changeVal" />
             <slot name="rightLabel">
                 <span>→ specific</span>
