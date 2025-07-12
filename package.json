@@ -20,9 +20,8 @@
   },
   "scripts": {
     "build": "vite build",
-    "prepare": "vite build",
-    "docs": "npx vue-docgen",
-    "prepublishOnly": "vite build"
+    "prepare": "vite build && npm run docs",
+    "docs": "npx vue-docgen"
   },
   "dependencies": {
     "@andorsearch/qry-codes": "^1.0.0-alpha.1",
