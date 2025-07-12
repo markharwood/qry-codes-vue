@@ -9,6 +9,12 @@ Useful for search applications built using BinaryVectors.
 npm install @andorsearch/qry-codes@next
 ```
 
+
+## Components
+[QryCluster](docs/src/components/QryCluster.md) for clustering similar vectors interactively with a similarity threshold slider
+[BitVisualizer](docs/src/components/BitVisualizer.md) for showing vectors as QRy codes (QR-like codes)
+
+
 ## Usage
 
 Check out the "Hello World" demo at https://github.com/markharwood/qry-codes-vue
@@ -39,7 +45,7 @@ onMounted(() => {
 Once loaded, the data can be passed to the QryCluster component for clustering and visualization.
 Clusters are listed horizontally and within each cluster a number of vectors are listed vertically
 where typically applications will show original text and/or images that were originally used to 
-create the vectors rather than the raw vector data.
+create the vectors rather than the raw vector data.     
 
 
 ```typescript

@@ -11,32 +11,60 @@ export interface Cluster {
 }
 
 const props = defineProps({
+  /**
+    * An array of vector embeddings, each expressed as a Uint8Array.
+    * These must all be of the same length i.e. the same number of dimensions.
+  */
   vectors: {
     type: Array<Uint8Array>,
     required: true
   },
+  /**
+    * The minimum similarity connecting all vectors in a cluster.
+    * In practice acceptable values range from 0.5 to 1.
+    * A binary vector resembling random white noise (think of an untuned TV) would 
+    * match 50% of bits in typical vectors. That is why no-similarity score around 0.5
+    * while an exact match is 1.
+  */
   minClusterSim: {
     type: Number,
     default: 0.7
   },
+  /**
+    * @ignore
+  */
   vw: {
     type: Number,
     default: 100
   },
+  /**
+    * Filters clusters that have less than this number of vectors in it
+  */
   minDocsPerCluster: {
     type: Number,
-    default: 2
+    default: 1
   },
+  /**
+    * The css class given to each cluster element
+  */
   clusterClass: {
     type: String,
     default: "qry-codes-cluster"
   },
+  /**
+   * The location of the slider used to change minClusterSim and therefore the number of clusters formed.
+   * @values none, top, bottom
+   */
   slider: {
     // type: String as () => "none" | "top" | "bottom", 
     type: String,
     default: "top"
   },
-  clusterScorer: {
+  /**
+   * An optional function to sort the list of clusters before they are displayed left to right (highest score first).
+   * The default sort order is by cluster size (the number of similar vector elements in each cluster)
+   */
+   clusterScorer: {
     type: Function,
     required: false,
     default: (cluster: Cluster) => cluster.indices.length  // Default no-op sort function (keeps original order)
@@ -117,6 +145,11 @@ function clusterResults() {
     <div :style="'display:flex;flex-direction: row;overflow-x: scroll;width: ' + props.vw + 'vw;gap:5px;height:300px;'">
       <div v-for="cluster, clusterIndex in clusters" :class="props.clusterClass">
 
+        <!-- @slot Slot used for the top element for each cluster
+            @binding {number[]} clusterVectorIndices The indices of each vector element grouped in this cluster
+            @binding {Uint8Array} clusterMergedVector The averaged vector of all the vectors in this cluster (useful for querying vector databases for more similar content)
+            @binding {number} clusterIndex The index of the cluster in the list of clusters (zero based)
+        -->        
         <slot name="clusterHeader" :clusterVectorIndices="cluster.indices" :clusterMergedVector="cluster.mergedVector"
           :clusterIndex="clusterIndex">
           <div>
@@ -132,6 +165,11 @@ function clusterResults() {
 
         <div style="display: flex;flex-direction: column;gap:10px;max-height:230px;overflow-y: scroll;margin-top: 6px;">
           <div v-for="vectorIndex, index in cluster.indices">
+            <!-- @slot Slot used for each vector element arranged vertically in a cluster
+                @binding {number} elementNumber The index of the vector element in this cluster (zero based)
+                @binding {number} vectorIndex The index of the original vector in the "vectors" array passed in properties.
+                @binding {number} clusterSize The number of similar vectors grouped in this cluster
+            -->        
             <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index"
               :clusterSize="cluster.indices.length">
               Result #{{ vectorIndex }}-{{ index }}

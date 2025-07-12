@@ -1,5 +1,5 @@
-import BitVisualizer from './src/BitVisualizer.vue';
-import QryCluster from './src/QryCluster.vue';
-import ClusterSlider from './src/ClusterSlider.vue';
+import BitVisualizer from './src/components/BitVisualizer.vue';
+import QryCluster from './src/components/QryCluster.vue';
+import ClusterSlider from './src/components/ClusterSlider.vue';
 
 export  {BitVisualizer, QryCluster, ClusterSlider};
