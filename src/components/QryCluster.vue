@@ -31,7 +31,7 @@ const props = defineProps({
     default: 0.7
   },
   /**
-    * @ignore
+    *The viewport width of the cluster component
   */
   vw: {
     type: Number,

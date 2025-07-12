@@ -11,8 +11,8 @@ npm install @andorsearch/qry-codes@next
 
 
 ## Components
-[QryCluster](docs/src/components/QryCluster.md) for clustering similar vectors interactively with a similarity threshold slider
-[BitVisualizer](docs/src/components/BitVisualizer.md) for showing vectors as QRy codes (QR-like codes)
+* [QryCluster](docs/src/components/QryCluster.md) for clustering similar vectors interactively with a similarity threshold slider
+* [BitVisualizer](docs/src/components/BitVisualizer.md) for showing vectors as QRy codes (QR-like codes)
 
 
 ## Usage
