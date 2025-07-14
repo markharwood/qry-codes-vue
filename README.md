@@ -8,6 +8,10 @@ Useful for search applications built using BinaryVectors.
 ```sh
 npm install @andorsearch/qry-codes-vue@next
 ```
+Add styles by importing stylesheet:
+```typescript
+import '@andorsearch/qry-codes-vue/dist/style.css';
+```
 
 
 ## Components
