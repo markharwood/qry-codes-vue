@@ -49,7 +49,7 @@ const props = defineProps({
   */
   clusterClass: {
     type: String,
-    default: "qry-codes-cluster"
+    default: "aos-qry-codes-cluster"
   },
   /**
    * The location of the slider used to change minClusterSim and therefore the number of clusters formed.
@@ -64,7 +64,7 @@ const props = defineProps({
    * An optional function to sort the list of clusters before they are displayed left to right (highest score first).
    * The default sort order is by cluster size (the number of similar vector elements in each cluster)
    */
-   clusterScorer: {
+  clusterScorer: {
     type: Function,
     required: false,
     default: (cluster: Cluster) => cluster.indices.length  // Default no-op sort function (keeps original order)
@@ -149,7 +149,7 @@ function clusterResults() {
             @binding {number[]} clusterVectorIndices The indices of each vector element grouped in this cluster
             @binding {Uint8Array} clusterMergedVector The averaged vector of all the vectors in this cluster (useful for querying vector databases for more similar content)
             @binding {number} clusterIndex The index of the cluster in the list of clusters (zero based)
-        -->        
+        -->
         <slot name="clusterHeader" :clusterVectorIndices="cluster.indices" :clusterMergedVector="cluster.mergedVector"
           :clusterIndex="clusterIndex">
           <div>
@@ -163,13 +163,13 @@ function clusterResults() {
           </div>
         </slot>
 
-        <div style="display: flex;flex-direction: column;gap:10px;max-height:230px;overflow-y: scroll;margin-top: 6px;">
+        <div class="aos-cluster-contents" >
           <div v-for="vectorIndex, index in cluster.indices">
             <!-- @slot Slot used for each vector element arranged vertically in a cluster
                 @binding {number} elementNumber The index of the vector element in this cluster (zero based)
                 @binding {number} vectorIndex The index of the original vector in the "vectors" array passed in properties.
                 @binding {number} clusterSize The number of similar vectors grouped in this cluster
-            -->        
+            -->
             <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index"
               :clusterSize="cluster.indices.length">
               Result #{{ vectorIndex }}-{{ index }}
@@ -187,18 +187,24 @@ function clusterResults() {
 
 </template>
 
-<style scoped>
-.qry-codes-cluster {
+<style>
+.aos-qry-codes-cluster {
   font-size: x-small;
   border-radius: 5px;
-  text-align: left;
-  padding: 10px;
+  padding: 5px;
   max-width: 200px;
   border-style: solid;
   border-color: #f1f1f1;
 }
 
-.qry-codes-cluster:hover {
+.aos-cluster-contents {
+    max-height: 230px;
+    margin-top: 6px;    
+    gap: 10px;
+    overflow-y: scroll;
+}
+
+.aos-qry-codes-cluster:hover {
   background-color: #eaeaea;
 }
 </style>

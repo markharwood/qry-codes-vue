@@ -6,7 +6,7 @@ Useful for search applications built using BinaryVectors.
 ## Installation
 
 ```sh
-npm install @andorsearch/qry-codes@next
+npm install @andorsearch/qry-codes-vue@next
 ```
 
 
