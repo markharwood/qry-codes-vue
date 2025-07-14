@@ -12,13 +12,6 @@
     "README.md",
     "LICENSE"
   ],
-  "exports": {
-    ".": {
-      "import": "./dist/qry-codes-vue.es.js",
-      "require": "./dist/qry-codes-vue.cjs.js",
-      "types": "./dist/index.d.ts"
-    }
-  },
   "scripts": {
     "build": "vite build",
     "prepare": "vite build && npm run docs",
