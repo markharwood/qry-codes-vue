@@ -144,27 +144,6 @@ function changeVal(event: Event) {
     cursor: pointer;
 }
 
-/* Latest CGPT answers */
-
-/* Style the thumb */
-/* input[type="range"]::-webkit-slider-thumb {
-  -webkit-appearance: none;
-  width: 40px; 
-  height: 40px;
-  background: #007aff;
-  border-radius: 50%;
-  cursor: pointer;
-  position: relative;
-} */
-
-/* Prevent accidental taps on the track */
-/* .custom-slider::-webkit-slider-runnable-track {
-    width: 100%;
-  height: 8px; 
-  background: #ddd;
-  border-radius: 4px;
-} */
-
 
 
 .custom-slider:focus {

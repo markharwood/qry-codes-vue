@@ -6,7 +6,7 @@ Useful for search applications built using BinaryVectors.
 ## Installation
 
 ```sh
-npm install @andorsearch/qry-codes-vue@next
+npm install @andorsearch/qry-codes-vue
 ```
 Add styles by importing stylesheet:
 ```typescript
