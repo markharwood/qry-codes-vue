@@ -168,6 +168,7 @@ function clusterResults() {
             <!-- @slot Slot used for each vector element arranged vertically in a cluster
                 @binding {number} elementNumber The index of the vector element in this cluster (zero based)
                 @binding {number} vectorIndex The index of the original vector in the "vectors" array passed in properties.
+                @binding {number} clusterIndex The index of the cluster in the list of displayed clusters
                 @binding {number} clusterSize The number of similar vectors grouped in this cluster
             -->
             <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index" :clusterIndex="clusterIndex"
