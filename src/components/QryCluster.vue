@@ -31,13 +31,6 @@ const props = defineProps({
     default: 0.7
   },
   /**
-    *The viewport width of the cluster component
-  */
-  vw: {
-    type: Number,
-    default: 100
-  },
-  /**
     * Filters clusters that have less than this number of vectors in it
   */
   minDocsPerCluster: {
@@ -50,6 +43,13 @@ const props = defineProps({
   clusterClass: {
     type: String,
     default: "aos-qry-codes-cluster"
+  },
+  /**
+    * The css class given to the top-level element that contains all clusters
+  */
+  clusterContainerClass: {
+    type: String,
+    default: "aos-qry-codes-clusters-container"
   },
   /**
    * The location of the slider used to change minClusterSim and therefore the number of clusters formed.
@@ -142,7 +142,7 @@ function clusterResults() {
       <ClusterSlider v-model="sliderSim" :min="minFoundSim" :max="maxFoundSim"></ClusterSlider>
     </div>
 
-    <div :style="'display:flex;flex-direction: row;overflow-x: scroll;width: ' + props.vw + 'vw;gap:5px;height:300px;'">
+    <div :class="clusterContainerClass" >
       <div v-for="cluster, clusterIndex in clusters" :class="props.clusterClass">
 
         <!-- @slot Slot used for the top element for each cluster
@@ -170,7 +170,7 @@ function clusterResults() {
                 @binding {number} vectorIndex The index of the original vector in the "vectors" array passed in properties.
                 @binding {number} clusterSize The number of similar vectors grouped in this cluster
             -->
-            <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index"
+            <slot name="clusterElement" :vectorIndex="vectorIndex" , :elementNumber="index" :clusterIndex="clusterIndex"
               :clusterSize="cluster.indices.length">
               Result #{{ vectorIndex }}-{{ index }}
             </slot>
@@ -188,6 +188,17 @@ function clusterResults() {
 </template>
 
 <style>
+.aos-qry-codes-clusters-container {
+  display:flex;
+  flex-direction: row;
+  overflow-x: scroll;
+  overflow-y: clip;
+  width: 100vw;
+  gap:5px;
+  height:300px;
+}
+
+
 .aos-qry-codes-cluster {
   font-size: x-small;
   border-radius: 5px;
@@ -195,16 +206,19 @@ function clusterResults() {
   max-width: 200px;
   border-style: solid;
   border-color: #f1f1f1;
+  display: flex;
+  flex-direction: column;
 }
 
 .aos-cluster-contents {
-    max-height: 230px;
     margin-top: 6px;    
     gap: 10px;
     overflow-y: scroll;
+    display: flex;
+    flex-direction: column;
 }
 
-.aos-qry-codes-cluster:hover {
+/* .aos-qry-codes-cluster:hover {
   background-color: #eaeaea;
-}
+} */
 </style>
