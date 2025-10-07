@@ -10,6 +10,14 @@ export interface Cluster {
   score: number
 }
 
+const emit = defineEmits<{
+  /**
+   * Called whenever the similarity graph is first built.
+   */
+
+  similiarityGraphBuilt: [simGraph: SimilarityGraph]
+}>()
+
 const props = defineProps({
   /**
     * An array of vector embeddings, each expressed as a Uint8Array.
@@ -109,6 +117,7 @@ function clusterResults() {
     })
     minFoundSim.value = min
     maxFoundSim.value = max
+    emit('similiarityGraphBuilt', simGraph)
   }
   clusters.value = []
   let unsortedClusters: Cluster[] = []
