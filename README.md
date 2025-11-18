@@ -17,6 +17,7 @@ import '@andorsearch/qry-codes-vue/dist/style.css';
 ## Components
 * [QryCluster](https://github.com/markharwood/qry-codes-vue/blob/main/docs/src/components/QryCluster.md) for clustering similar vectors interactively with a similarity threshold slider
 * [BitVisualizer](https://github.com/markharwood/qry-codes-vue/blob/main/docs/src/components/BitVisualizer.md) for showing vectors as QRy codes (QR-like codes)
+* [QryCodeSearchIcon](https://github.com/markharwood/qry-codes-vue/blob/main/docs/src/components/QryCodeSearchIcon.md) for showing custom search icons (a magnifying glass showing parts of vector using a BitVisualizer)
 * [Deferred](https://github.com/markharwood/qry-codes-vue/blob/main/docs/src/components/Deferred.md) for efficient rendering of clustered documents. Users thrashing the cluster slider can generate many short-lived elements so the Deferred wrapper is a way
 of rendering heavier elements until after the slider changes have settled down.
 
