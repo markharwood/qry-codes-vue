@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, watch } from "vue"
+import { ref, watch, PropType } from "vue"
 import BitVisualizer from './BitVisualizer.vue';
 import ClusterSlider from './ClusterSlider.vue';
-import { SimilarityGraph, buildSimilarityGraph, clusterByThreshold, mergeVectors } from "@andorsearch/qry-codes"
+import { SimilarityGraph, buildSimilarityGraph, clusterWithCohesion, mergeVectors } from "@andorsearch/qry-codes"
 
 export interface Cluster {
   indices: number[]
@@ -76,7 +76,15 @@ const props = defineProps({
     type: Function,
     required: false,
     default: (cluster: Cluster) => cluster.indices.length  // Default no-op sort function (keeps original order)
-  }
+  },
+    /**
+      * Function called to cluster vectors
+    */
+    clusteringAlgo: {
+        type: Function as PropType<(simGraph: SimilarityGraph, similarityThreshold:number) => number[][]>,
+        required: false,
+        default: clusterWithCohesion
+    }  
 })
 let minFoundSim = ref(0)
 let maxFoundSim = ref(1)
@@ -121,7 +129,7 @@ function clusterResults() {
   }
   clusters.value = []
   let unsortedClusters: Cluster[] = []
-  let clusteredIDs: number[][] = clusterByThreshold(simGraph, sliderSim.value)
+  let clusteredIDs: number[][] = props.clusteringAlgo(simGraph, sliderSim.value)
   clusteredIDs = clusteredIDs.filter(cluster => cluster.length >= props.minDocsPerCluster)
   clusteredIDs.forEach((cluster) => {
     // Compute the average for each cluster
